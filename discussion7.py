@@ -39,7 +39,7 @@ def load_listings(f):
             return []  # empty file
 
         for row in reader:
-            # If a row is shorter than the header, pad with empty strings.
+            # If a row is shorter than the header, replace with empty strings.
             if len(row) < len(header):
                 row = row + [''] * (len(header) - len(row))
             # If a row is longer than the header, ignore extra columns.
@@ -70,11 +70,11 @@ def calculate_avg_price_by_neighbourhood_group_and_room(listings):
     counts = {}
 
     for listing in listings:
-        ng = listing.get('neighbourhood_group', '').strip()
-        rt = listing.get('room_type', '').strip()
+        hoodgroup = listing.get('neighbourhood_group', '').strip()
+        roomt = listing.get('room_type', '').strip()
         price_str = str(listing.get('price', '')).strip()
 
-        if ng == '' or rt == '' or price_str == '':
+        if hoodgroup == '' or roomt == '' or price_str == '':
             continue
 
         try:
@@ -83,7 +83,7 @@ def calculate_avg_price_by_neighbourhood_group_and_room(listings):
             # Skip non-numeric prices
             continue
 
-        key = (ng, rt)
+        key = (hoodgroup, roomt)
         totals[key] = totals.get(key, 0.0) + price
         counts[key] = counts.get(key, 0) + 1
 
@@ -106,8 +106,8 @@ def write_summary_csv(out_filename, avg_prices):
         writer.writerow(['neighbourhood_group', 'room_type', 'average_price'])
 
         # Sort for reproducible output
-        for (ng, rt) in sorted(avg_prices.keys(), key=lambda x: (x[0], x[1])):
-            writer.writerow([ng, rt, avg_prices[(ng, rt)]])
+        for (hoodgroup, roomt) in sorted(avg_prices.keys(), key=lambda x: (x[0], x[1])):
+            writer.writerow([hoodgroup, roomt, avg_prices[(hoodgroup, roomt)]])
 
     return None
 
