@@ -100,20 +100,7 @@ def calculate_avg_price_by_neighbourhood_group_and_room(listings):
 ##### TASK 3: CSV WRITER
 ###############################################################################
 def write_summary_csv(out_filename, avg_prices):
-    """
-    Write the summary statistics to a CSV file.
-
-    Parameters:
-        out_filename : str
-            Path to output CSV file.
-        avg_prices : dictionary
-            dict mapping (neighbourhood_group, room_type) -> average_price (float)
-            e.g. { ('Manhattan', 'Entire home/apt'): 123.45, ... }
-
-    Returns:
-        None
-            Writes a CSV file with header: neighbourhood_group, room_type, average_price
-    """
+    
     with open(out_filename, 'w', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
         writer.writerow(['neighbourhood_group', 'room_type', 'average_price'])
@@ -171,7 +158,7 @@ class TestAirbnbListings(unittest.TestCase):
             # Check that we have the expected number of rows
             self.assertEqual(len(rows), 18)
             
-            # Verify header
+            # Verify the header here
             self.assertEqual(reader.fieldnames, ['neighbourhood_group', 'room_type', 'average_price'])
         
 
